@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="public/css/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="public/css/styles.css">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        .background {
+            width: 100%;
+            aspect-ratio: 16/9;
+            position: absolute;
+            background-image: url("public/images/map_songsaigon.jpg ");
+            background-repeat: no-repeat;
+            background-size: cover;
+            top: 0;
+            left: 0;
+            filter: blur(5px);
+            z-index: 1;
+        }
+
+        .overlay {
+            width: 100%;
+            aspect-ratio: 16/9;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(1, 55, 71, 0.85);
+            z-index: 2;
+        }
+
+        .main {
+            aspect-ratio: 16/9;
+            top: 0;
+            left: 0;
+            position: relative;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .content {
+            position: absolute;
+            width: 60%;
+            height: 80%;
+            background-color: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .map {
+            width: 100%;
+            height: 80%;
+            background: url("public/images/map_songsaigon.jpg");
+            background-position: center center;
+            position: relative;
+            background-repeat: no-repeat;
+            transition: all 1s ease;
+        }
+
+        .bar {
+            width: 100%;
+            position: absolute;
+            height: 50px;
+            left: 0;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .bar-up,
+        .fa-chevron-up {
+            top: 0;
+        }
+
+        .bar-down,
+        .fa-chevron-down {
+            bottom: 20%;
+        }
+
+        .icon-chevron {
+            position: absolute;
+            left: 50%;
+            font-size: 30px;
+            transform: translateX(-50%);
+            padding: 10px 0;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        .fa-location-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: red;
+            font-size: 40px;
+            animation: ping 0.5s infinite ease alternate;
+        }
+
+        /* chevron */
+        .fa-chevron-up:focus~.map {
+            background-position: center top;
+        }
+
+        .fa-chevron-down:focus~.map {
+            background-position: center bottom;
+        }
+
+        .fa-chevron-up:focus~.map i {
+            animation: moveToTop 0.5s forwards, ping 0.5s infinite ease alternate;
+        }
+
+        .fa-chevron-down:focus~.map i {
+            animation: moveToBottom 0.5s forwards, ping 0.5s infinite ease alternate;
+        }
+
+        /* bar */
+
+        .bar-up:hover~.map {
+            background-position: center top;
+        }
+
+        .bar-down:hover~.map {
+            background-position: center bottom;
+        }
+
+        .bar-up:hover~.map i {
+            animation: moveToTop 0.5s forwards, ping 0.5s infinite ease alternate;
+        }
+
+        .bar-down:hover~.map i {
+            animation: moveToBottom 0.5s forwards, ping 0.5s infinite ease alternate;
+        }
+
+
+        @font-face {
+            font-family: myFont;
+            src: url("public/fonts/SVN-Batman\ Forever\ Alternate.otf");
+        }
+
+        .text {
+            font-family: myFont;
+            font-size: 50px;
+            color: transparent;
+            animation: changeTextColor 0.5s infinite linear;
+            top: 50%;
+            position: absolute;
+            text-align: center;
+        }
+
+        .text:nth-of-type(1) {
+            left: 0;
+            transform: translateX(-20%) translateY(-50%) rotate(-90deg);
+        }
+
+        .text:nth-of-type(2) {
+            right: 0;
+            transform: translateX(20%) translateY(-50%) rotate(-90deg);
+        }
+
+
+
+        /* animation */
+
+        @keyframes changeTextColor {
+            0% {
+                -webkit-text-stroke: 2px #999999;
+            }
+
+            100% {
+                -webkit-text-stroke: 2px #ffffff;
+            }
+        }
+
+        @keyframes ping {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-30px);
+            }
+
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes moveToTop {
+            0% {
+                left: 11%;
+            }
+
+            100% {
+                left: 11%;
+                top: 12%;
+            }
+        }
+
+        @keyframes moveToBottom {
+            0% {
+                left: 70.5%;
+            }
+
+            100% {
+                left: 70.5%;
+                top: 86%;
+            }
+        }
+
+        .list-logo {
+            background: #fff;
+            height: 20%;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            box-shadow: inset 0 15px 20px #33333320;
+            max-width: 100%;
+        }
+
+        .logos {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 50px;
+            height: 100%;
+            max-width: 100%;
+            align-items: end;
+            margin: 0 50px;
+        }
+
+        .logos div {
+            flex: 1;
+        }
+
+        .logos>div>img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .logos div:nth-child(2) {
+            flex: 0.4;
+        }
+
+        .logos>div:hover img {
+            animation: logoAni 0.25s infinite alternate;
+        }
+
+        @keyframes logoAni {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="overlay"></div>
+    <div class="main">
+        <h2 class="text">SONG SAI GON</h2>
+        <h2 class="text">CON SONG <br> THANH PHO TOI</h2>
+        <div class="content">
+            <div class="bar bar-up"></div>
+            <div class="bar bar-down"></div>
+            <i class="fa-solid fa-chevron-up icon-chevron" tabindex="0"></i>
+            <i class="fa-solid fa-chevron-down icon-chevron" tabindex="0"></i>
+            <div class="map">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div class="list-logo">
+                <div class="logos">
+                    <div><img src="public/images/ten%20du%20an.png"></div>
+                    <div><img src="public/images/UBND_TP_HCM.png"></div>
+                    <div><img src="public/images/thanh%20doan%20tphcm.png"></div>
+                    <div><img src="public/images/FPT_Polytechnic.png"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
